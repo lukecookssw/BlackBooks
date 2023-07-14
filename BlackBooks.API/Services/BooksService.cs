@@ -31,7 +31,7 @@ public class BooksService
         List<string> titles = this._dbContext.Books
                                 .Where(b => 
                                         b.Title.ToLower().Contains(searchTerm)
-                                    ||  b.Categories.Any(c => c.CategoryId.ToLower().Contains(searchTerm))
+                                    ||  b.Categories.Any(c => c.Category.Name.ToLower().Contains(searchTerm))
                                     )
                                 .Select(b => b.Title)
                                 .ToList();

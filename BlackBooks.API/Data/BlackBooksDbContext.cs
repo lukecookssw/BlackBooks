@@ -18,12 +18,12 @@ public class BlackBooksDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Category>().HasData(
-            new Category { Name = "Fiction" },
-            new Category { Name = "Non-Fiction" },
-            new Category { Name = "Science Fiction" },
-            new Category { Name = "Fantasy" },
-            new Category { Name = "Horror" },
-            new Category { Name = "Thriller" }
+            new Category { Id = 1, Name = "Fiction" },
+            new Category { Id = 2, Name = "Non-Fiction" },
+            new Category { Id = 3, Name = "Science Fiction" },
+            new Category { Id = 4, Name = "Fantasy" },
+            new Category { Id = 5, Name = "Horror" },
+            new Category { Id = 6, Name = "Thriller" }
             );
         
         modelBuilder.Entity<Author>().HasData(
@@ -42,18 +42,18 @@ public class BlackBooksDbContext : DbContext
             );
 
         modelBuilder.Entity<BookCategory>().HasData(
-            new BookCategory { Id = 1, BookId = 1, CategoryId = "Fiction" },
-            new BookCategory { Id = 2, BookId = 1, CategoryId = "Science Fiction" },
-            new BookCategory { Id = 3, BookId = 2, CategoryId = "Fiction" },
-            new BookCategory { Id = 4, BookId = 2, CategoryId = "Science Fiction" },
-            new BookCategory { Id = 5, BookId = 3, CategoryId = "Fiction" },
-            new BookCategory { Id = 6, BookId = 3, CategoryId = "Science Fiction" },
-            new BookCategory { Id = 7, BookId = 4, CategoryId = "Fiction" },
-            new BookCategory { Id = 8, BookId = 4, CategoryId = "Science Fiction" },
-            new BookCategory { Id = 9, BookId = 5, CategoryId = "Fiction" },
-            new BookCategory { Id = 10, BookId = 5, CategoryId = "Fantasy" },
-            new BookCategory { Id = 11, BookId = 6, CategoryId = "Fiction" },
-            new BookCategory { Id = 12, BookId = 6, CategoryId = "Fantasy" }
+            new BookCategory { Id = 1, BookId = 1, CategoryId = 1 },
+            new BookCategory { Id = 2, BookId = 1, CategoryId = 3 },
+            new BookCategory { Id = 3, BookId = 2, CategoryId = 1 },
+            new BookCategory { Id = 4, BookId = 2, CategoryId = 3 },
+            new BookCategory { Id = 5, BookId = 3, CategoryId = 1 },
+            new BookCategory { Id = 6, BookId = 3, CategoryId = 3 },
+            new BookCategory { Id = 7, BookId = 4, CategoryId = 1 },
+            new BookCategory { Id = 8, BookId = 4, CategoryId = 3 },
+            new BookCategory { Id = 9, BookId = 5, CategoryId = 1 },
+            new BookCategory { Id = 10, BookId = 5, CategoryId = 4 },
+            new BookCategory { Id = 11, BookId = 6, CategoryId = 1 },
+            new BookCategory { Id = 12, BookId = 6, CategoryId = 4 }
             );
         
         base.OnModelCreating(modelBuilder);
