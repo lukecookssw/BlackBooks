@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using BlackBooks.API.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace BlackBooks.API.Controllers;
 
@@ -6,40 +7,46 @@ namespace BlackBooks.API.Controllers;
 [Route("[controller]")]
 public class BooksController : ControllerBase
 {
-    // TODO: Add private Services here, e.g.:
-    // private readonly SomeService _someService;
+    private readonly BooksService _booksService;
 
     // TODO: Implement logging
     private readonly ILogger<BooksController> _logger;
     
-    public BooksController(ILogger<BooksController> logger)
+    public BooksController(ILogger<BooksController> logger, BooksService booksService)
     {
-        // TODO: Inject Services here, e.g.:
-        // this._someService = someService;
-        this._logger = logger;
+        this._booksService  = booksService;
+        this._logger        = logger;
     }
     
     [HttpGet("All")]
     public ActionResult<List<string>> GetAll()
     {
-        // TODO: Move this to BooksService
-        return new List<string>
-        { 
-            "Book 1", 
-            "Book 2",
-            "Book 3",
-            "Book 4"
-        };
+        try
+        {
+            List<string> results = this._booksService.GetAllBooks();
+            return results;
+        }
+        catch (Exception ex)
+        {
+
+            this._logger.LogError(ex, "GetAll");
+            return StatusCode(500, "Something went wrong");
+        }
+        
     }
 
     [HttpGet("Search/{searchTerm}")]
     public ActionResult<List<string>> Search(string searchTerm)
     {
-        // TODO: Move this to BooksService
-        return new List<string>
-        { 
-            $"Book 1 containing { searchTerm }", 
-            $"Book 2 containing { searchTerm }"
-        };
+        try
+        {
+            List<string> results = this._booksService.SearchBooks(searchTerm);
+            return results;
+        }
+        catch(Exception ex)
+        {
+            this._logger.LogError(ex, "Search");
+            return StatusCode(500, "Something went wrong");
+        }
     }
 }
