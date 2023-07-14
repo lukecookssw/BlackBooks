@@ -8,8 +8,6 @@ namespace BlackBooks.API.Controllers;
 public class BooksController : ControllerBase
 {
     private readonly BooksService _booksService;
-
-    // TODO: Implement logging
     private readonly ILogger<BooksController> _logger;
     
     public BooksController(ILogger<BooksController> logger, BooksService booksService)

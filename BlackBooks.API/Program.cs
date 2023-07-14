@@ -1,8 +1,12 @@
+using BlackBooks.API.Data;
 using BlackBooks.API.Services;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// TODO: Wire up DbContext
+builder.Services.AddDbContext<BlackBooksDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
+    );
 
 // Add services to the container.
 // TODO: Add all Services here

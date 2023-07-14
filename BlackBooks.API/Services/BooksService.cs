@@ -1,33 +1,42 @@
-﻿namespace BlackBooks.API.Services;
+﻿using BlackBooks.API.Data;
+using BlackBooks.API.Data.Entities;
+
+namespace BlackBooks.API.Services;
 
 public class BooksService
 {
-    // TODO: Add DbContext here
-    // private readonly BlackBooksDbContext _dbContext;
-    public BooksService()
+    private readonly BlackBooksDbContext _dbContext;
+    public BooksService(BlackBooksDbContext dbContext)
     {
-        // TODO: Inject DbContext here
+        this._dbContext = dbContext;
     }
 
     public List<string> GetAllBooks()
     {
-        // TODO: Get all books from the database
-        return new List<string>
-        {
-            "Book 1",
-            "Book 2",
-            "Book 3",
-            "Book 4"
-        };
+        // TODO: Fix warning
+        List<Book> books = this._dbContext.Books
+                                .ToList();
+        List<string> titles = books
+                                .Where(b => b.Title != null)
+                                .Select(b => b.Title)
+                                .ToList();
+
+        return titles;
     }
     
     public List<string> SearchBooks(string searchTerm)
     {
-        // TODO: Search the database for books where their title contains the search term
-        return new List<string>
-        {
-            $"Book 1 containing { searchTerm }",
-            $"Book 2 containing { searchTerm }"
-        };
+        // TODO: Add validation and sanitisation
+        
+        List<Book> books = this._dbContext.Books
+                                .ToList();
+
+        // TODO: Fix warning
+        List<string> titles = books
+                                .Where(b => b.Title.Contains(searchTerm))
+                                .Select(b => b.Title)
+                                .ToList();
+
+        return titles;
     }
 }
