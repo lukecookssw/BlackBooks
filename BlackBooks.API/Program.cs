@@ -11,6 +11,7 @@ builder.Services.AddDbContext<BlackBooksDbContext>(options =>
 // Add services to the container.
 // TODO: Add all Services here
 builder.Services.AddScoped<BooksService>();
+builder.Services.AddScoped<AuthorsService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
