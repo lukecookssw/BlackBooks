@@ -6,16 +6,23 @@ namespace BlackBooks.API.Controllers;
 [Route("[controller]")]
 public class BooksController : ControllerBase
 {
-    private readonly ILogger<BooksController> _logger;
+    // TODO: Add private Services here, e.g.:
+    // private readonly SomeService _someService;
 
+    // TODO: Implement logging
+    private readonly ILogger<BooksController> _logger;
+    
     public BooksController(ILogger<BooksController> logger)
     {
+        // TODO: Inject Services here, e.g.:
+        // this._someService = someService;
         this._logger = logger;
     }
     
     [HttpGet("All")]
     public ActionResult<List<string>> GetAll()
     {
+        // TODO: Move this to BooksService
         return new List<string>
         { 
             "Book 1", 
@@ -28,6 +35,7 @@ public class BooksController : ControllerBase
     [HttpGet("Search/{searchTerm}")]
     public ActionResult<List<string>> Search(string searchTerm)
     {
+        // TODO: Move this to BooksService
         return new List<string>
         { 
             $"Book 1 containing { searchTerm }", 
