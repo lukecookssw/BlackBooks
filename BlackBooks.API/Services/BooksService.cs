@@ -1,5 +1,4 @@
 ﻿using BlackBooks.API.Data;
-using BlackBooks.API.Data.Entities;
 
 namespace BlackBooks.API.Services;
 
