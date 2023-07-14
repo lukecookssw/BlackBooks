@@ -13,27 +13,24 @@ public class BooksService
 
     public List<string> GetAllBooks()
     {
-        // TODO: Fix warning
-        List<Book> books = this._dbContext.Books
-                                .ToList();
-        List<string> titles = books
-                                .Where(b => b.Title != null)
+        List<string> titles = this._dbContext.Books
                                 .Select(b => b.Title)
                                 .ToList();
-
         return titles;
     }
     
     public List<string> SearchBooks(string searchTerm)
     {
-        // TODO: Add validation and sanitisation
-        
-        List<Book> books = this._dbContext.Books
-                                .ToList();
+        if (String.IsNullOrWhiteSpace(searchTerm))
+        {
+            throw new ArgumentNullException(nameof(searchTerm));
+        }
+        searchTerm = searchTerm
+                        .Trim()
+                        .ToLower();
 
-        // TODO: Fix warning
-        List<string> titles = books
-                                .Where(b => b.Title.Contains(searchTerm))
+        List<string> titles = this._dbContext.Books
+                                .Where(b => b.Title.ToLower().Contains(searchTerm))
                                 .Select(b => b.Title)
                                 .ToList();
 
