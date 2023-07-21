@@ -8,6 +8,8 @@ builder.Services.AddDbContext<BlackBooksDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
     );
 
+// TODO: Add AppInsights so we can get performance telemetry
+
 // Add services to the container.
 // TODO: Add all Services here
 builder.Services.AddScoped<BooksService>();
