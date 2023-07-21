@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 
 namespace BlackBooks.API.Services;
-
+// TODO: Add telemetry logging (method runtime) that can be enabled/disabled via a config setting
 public class AuthorsService
 {
     private readonly BlackBooksDbContext _dbContext;
@@ -24,7 +24,7 @@ public class AuthorsService
     {
         if (String.IsNullOrWhiteSpace(searchTerm))
         {
-            throw new ArgumentNullException(nameof(searchTerm));
+            return new List<string>();
         }
 
         searchTerm = searchTerm

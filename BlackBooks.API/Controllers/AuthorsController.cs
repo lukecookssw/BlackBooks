@@ -26,7 +26,6 @@ public class AuthorsController : ControllerBase
         }
         catch (Exception ex)
         {
-
             this._logger.LogError(ex, "GetAll");
             return StatusCode(500, "Something went wrong");
         }
