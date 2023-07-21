@@ -12,7 +12,7 @@ public class BlackBooksDbContext : DbContext
         : base(options)
     {
     }
-
+    // TODO: Add seed/demo data
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Author>().HasData(
