@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 
 namespace BlackBooks.API.Controllers;
-
+// TODO: Create AuthorsController vertical slice (nowhere better to put this TODO)
 [ApiController]
 [Route("[controller]")]
 public class BooksController : ControllerBase
