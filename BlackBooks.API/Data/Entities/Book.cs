@@ -11,4 +11,6 @@ public class Book
 
     // TODO: Fix warning
     public Author Author { get; set; }
+
+    // TODO: ADD - public ICollection<Category> Categories { get; set; } = new HashSet<Category>();
 }
