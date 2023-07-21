@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 
 namespace BlackBooks.API.Controllers;
-
+// TODO: Async all the things
 [ApiController]
 [Route("[controller]")]
 public class AuthorsController : ControllerBase
