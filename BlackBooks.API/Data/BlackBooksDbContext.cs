@@ -9,7 +9,7 @@ public class BlackBooksDbContext : DbContext
     public DbSet<Book> Books => this.Set<Book>();
     public DbSet<BookCategory> BookCategories => this.Set<BookCategory>();
     public DbSet<Author> Authors => this.Set<Author>();
-
+    
     public BlackBooksDbContext(DbContextOptions<BlackBooksDbContext> options) 
         : base(options)
     {
@@ -17,6 +17,7 @@ public class BlackBooksDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        // TODO: Create Migration and apply these to the database.
         modelBuilder.Entity<Category>().HasData(
             new Category { Id = 1, Name = "Fiction" },
             new Category { Id = 2, Name = "Non-Fiction" },
