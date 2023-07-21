@@ -47,4 +47,7 @@ public class BooksController : ControllerBase
             return StatusCode(500, "Something went wrong");
         }
     }
+
+    // TODO: Add UpdateBook endpoint, which updates the title, author, and categories.
+    // Make sure it uses a DTO
 }
