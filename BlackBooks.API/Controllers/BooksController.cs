@@ -58,6 +58,11 @@ public class BooksController : ControllerBase
             BookDTO result = this._booksService.UpdateBook(book);
             return result;
         }
+        catch (ArgumentException ex)
+        {
+            this._logger.LogWarning(ex, "UpdateBook");
+            return StatusCode(400, ex.Message);
+        }
         catch (Exception ex)
         {
             this._logger.LogError(ex, $"{nameof(BooksController)}.{nameof(UpdateBook)}");
