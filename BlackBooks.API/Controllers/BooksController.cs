@@ -1,4 +1,6 @@
-﻿using BlackBooks.API.Services;
+﻿using BlackBooks.API.Data.Entities;
+using BlackBooks.API.Models;
+using BlackBooks.API.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BlackBooks.API.Controllers;
@@ -27,7 +29,7 @@ public class BooksController : ControllerBase
         catch (Exception ex)
         {
 
-            this._logger.LogError(ex, "GetAll");
+            this._logger.LogError(ex, $"{nameof(BooksController)}.{nameof(GetAll)}");
             return StatusCode(500, "Something went wrong");
         }
         
@@ -43,7 +45,22 @@ public class BooksController : ControllerBase
         }
         catch(Exception ex)
         {
-            this._logger.LogError(ex, "Search");
+            this._logger.LogError(ex, $"{nameof(BooksController)}.{nameof(Search)}");
+            return StatusCode(500, "Something went wrong");
+        }
+    }
+
+    [HttpPut("Update")]
+    public ActionResult<BookDTO> UpdateBook(BookDTO book)
+    {
+        try
+        {
+            BookDTO result = this._booksService.UpdateBook(book);
+            return result;
+        }
+        catch (Exception ex)
+        {
+            this._logger.LogError(ex, $"{nameof(BooksController)}.{nameof(UpdateBook)}");
             return StatusCode(500, "Something went wrong");
         }
     }
