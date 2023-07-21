@@ -13,15 +13,15 @@ public class BooksService
         this._dbContext = dbContext;
     }
 
-    public List<string> GetAllBooks()
+    public async Task<List<string>> GetAllBooks()
     {
-        List<string> titles = this._dbContext.Books
+        List<string> titles = await this._dbContext.Books
                                 .Select(b => b.Title)
-                                .ToList();
+                                .ToListAsync();
         return titles;
     }
     
-    public List<string> SearchBooks(string searchTerm)
+    public async Task<List<string>> SearchBooks(string searchTerm)
     {
         if (String.IsNullOrWhiteSpace(searchTerm))
         {
@@ -31,32 +31,30 @@ public class BooksService
                         .Trim()
                         .ToLower();
 
-        List<string> titles = this._dbContext.Books
+        List<string> titles = await this._dbContext.Books
                                 .Where(b => 
                                         b.Title.ToLower().Contains(searchTerm)
                                     ||  b.Categories.Any(c => c.Category.Name.ToLower().Contains(searchTerm))
                                     )
                                 .Select(b => b.Title)
-                                .ToList();
+                                .ToListAsync();
 
         return titles;
     }
 
-    public BookDTO UpdateBook(BookDTO book)
+    public async Task<BookDTO> UpdateBook(BookDTO book)
     {
-        this.ValidateBookDTO(book);
+        await this.ValidateBookDTO(book);
 
-        
-
-        var dbBook = _dbContext.Books
+        var dbBook = await _dbContext.Books
                                 .Include(b => b.Categories)
-                                .First(b => b.Id == book.Id);
+                                .FirstAsync(b => b.Id == book.Id);
 
         dbBook.AuthorId = book.AuthorId;
         dbBook.Title    = book.Title.Trim();
-        this.UpdateBookCategories(ref dbBook, book.CategoryIds.ToArray());
+        await this.UpdateBookCategories(dbBook, book.CategoryIds.ToArray());
         
-        _dbContext.SaveChanges();
+        await _dbContext.SaveChangesAsync();
 
         return new BookDTO
         {
@@ -68,7 +66,7 @@ public class BooksService
     }
 
 
-    private void ValidateBookDTO(BookDTO book)
+    private async Task ValidateBookDTO(BookDTO book)
     {
         if (String.IsNullOrWhiteSpace(book.Title)) 
             throw new ArgumentException("Must have a title", nameof(book.Title));
@@ -82,17 +80,29 @@ public class BooksService
             throw new ArgumentException("CategoryIds must be unique and greater than 0", nameof(book.CategoryIds));
 
         // Expensive to do a whole round trip to the DB to validate the author... :(
-        bool authorExists = this._dbContext.Authors.Any(a => a.Id == book.AuthorId);
+        bool authorExists = await this._dbContext.Authors.AnyAsync(a => a.Id == book.AuthorId);
         if (!authorExists)
             throw new ArgumentException("Author does not exist", nameof(book.AuthorId));
 
+        // Expensive to do a whole round trip to the DB to validate the categories... :(
+        book.CategoryIds = book.CategoryIds.Distinct().ToList();
+        bool categoriesExist = await this._dbContext.Categories
+                                    .Where(c => book.CategoryIds.Contains(c.Id))
+                                    .CountAsync() == book.CategoryIds.Count;
+        if (!categoriesExist)
+            throw new ArgumentException("One or more categories do not exist", nameof(book.CategoryIds));
+
     }
-    private void UpdateBookCategories(ref Book dbBook, int[] categoryIds)
+    private async Task UpdateBookCategories(Book dbBook, int[] categoryIds)
     {
         dbBook.Categories.Clear();
 
-        List<Category> selectedCategories = _dbContext.Categories.Where(c => categoryIds.Contains(c.Id)).ToList();
+        List<Category> selectedCategories = await _dbContext.Categories
+                                                        .Where(c => categoryIds.Contains(c.Id))
+                                                        .Distinct()
+                                                        .ToListAsync();
 
+        // iterate only over the valid (database-fetched) categories
         foreach (var category in selectedCategories)
         {
             dbBook.Categories.Add(new BookCategory { Category = category, BookId = dbBook.Id });

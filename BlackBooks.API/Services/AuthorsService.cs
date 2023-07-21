@@ -1,4 +1,5 @@
 ﻿using BlackBooks.API.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace BlackBooks.API.Services;
 
@@ -11,15 +12,15 @@ public class AuthorsService
         this._dbContext = dbContext;
     }
     
-    public List<string> GetAllAuthors()
+    public async Task<List<string>> GetAllAuthors()
     {
-        List<string> authors = this._dbContext.Authors
+        List<string> authors = await this._dbContext.Authors
                                 .Select(a => a.Name)
-                                .ToList();
+                                .ToListAsync();
         return authors;
     }
 
-    public List<string> SearchAuthors(string searchTerm)
+    public async Task<List<string>> SearchAuthors(string searchTerm)
     {
         if (String.IsNullOrWhiteSpace(searchTerm))
         {
@@ -30,10 +31,10 @@ public class AuthorsService
                         .Trim()
                         .ToLower();
 
-        List<string> authors = this._dbContext.Authors
+        List<string> authors = await this._dbContext.Authors
                                 .Where(a => a.Name.ToLower().Contains(searchTerm))
                                 .Select(a => a.Name)
-                                .ToList();
+                                .ToListAsync();
 
         return authors;
     }

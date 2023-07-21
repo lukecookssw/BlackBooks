@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 
 namespace BlackBooks.API.Controllers;
-// TODO: Async all the things
+
 [ApiController]
 [Route("[controller]")]
 public class AuthorsController : ControllerBase
@@ -17,11 +17,11 @@ public class AuthorsController : ControllerBase
     }
 
     [HttpGet("All")]
-    public ActionResult<List<string>> GetAll()
+    public async Task<ActionResult<List<string>>> GetAll()
     {
         try
         {
-            List<string> results = this._authorsService.GetAllAuthors();
+            List<string> results = await this._authorsService.GetAllAuthors();
             return results;
         }
         catch (Exception ex)
@@ -34,11 +34,11 @@ public class AuthorsController : ControllerBase
     }
 
     [HttpGet("Search/{searchTerm}")]
-    public ActionResult<List<string>> Search(string searchTerm)
+    public async Task<ActionResult<List<string>>> Search(string searchTerm)
     {
         try
         {
-            List<string> results = this._authorsService.SearchAuthors(searchTerm);
+            List<string> results = await this._authorsService.SearchAuthors(searchTerm);
             return results;
         }
         catch (Exception ex)

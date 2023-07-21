@@ -4,7 +4,7 @@ using BlackBooks.API.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BlackBooks.API.Controllers;
-// TODO: Async all the things
+
 [ApiController]
 [Route("[controller]")]
 public class BooksController : ControllerBase
@@ -19,11 +19,11 @@ public class BooksController : ControllerBase
     }
     
     [HttpGet("All")]
-    public ActionResult<List<string>> GetAll()
+    public async Task<ActionResult<List<string>>> GetAll()
     {
         try
         {
-            List<string> results = this._booksService.GetAllBooks();
+            List<string> results = await this._booksService.GetAllBooks();
             return results;
         }
         catch (Exception ex)
@@ -36,11 +36,11 @@ public class BooksController : ControllerBase
     }
 
     [HttpGet("Search/{searchTerm}")]
-    public ActionResult<List<string>> Search(string searchTerm)
+    public async Task<ActionResult<List<string>>> Search(string searchTerm)
     {
         try
         {
-            List<string> results = this._booksService.SearchBooks(searchTerm);
+            List<string> results = await this._booksService.SearchBooks(searchTerm);
             return results;
         }
         catch(Exception ex)
@@ -51,11 +51,11 @@ public class BooksController : ControllerBase
     }
 
     [HttpPut("Update")]
-    public ActionResult<BookDTO> UpdateBook(BookDTO book)
+    public async Task<ActionResult<BookDTO>> UpdateBook(BookDTO book)
     {
         try
         {
-            BookDTO result = this._booksService.UpdateBook(book);
+            BookDTO result = await this._booksService.UpdateBook(book);
             return result;
         }
         catch (ArgumentException ex)
