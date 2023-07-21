@@ -5,6 +5,8 @@ namespace BlackBooks.API.Data;
 
 public class BlackBooksDbContext : DbContext
 {
+    // TODO: Add Categories
+    // TODO: Add BookCategories
     public DbSet<Book> Books => this.Set<Book>();
     public DbSet<Author> Authors => this.Set<Author>();
 
